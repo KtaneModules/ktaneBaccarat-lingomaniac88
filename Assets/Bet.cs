@@ -8,9 +8,9 @@ namespace KtaneBaccarat
 {
 	class Bet
 	{
-		static float ChipThickness = 0.00165f;
+		static float ChipThickness = 0.0033f * 0.375f;
 		static float ChipInlayDepth = 0.0004f;
-		static float ChipSidestepDistance = 0.02f;
+		static float ChipSidestepDistance = 0.039f * 0.375f;
 		static int SlideFrames = 20;
 
 		BaccaratScript Owner;
@@ -64,8 +64,7 @@ namespace KtaneBaccarat
 						float chipRotation = UnityEngine.Random.Range(0f, 360f);
 
 						// The new chip will keep the textures of the active chip
-						var newChip = BaccaratScript.Instantiate(Owner.CurrentChip.gameObject);
-						newChip.transform.parent = ChipStack.transform;
+						var newChip = BaccaratScript.Instantiate(Owner.CurrentChip.gameObject, ChipStack.transform);
 						newChip.transform.localScale *= 0.5f;
 						newChip.transform.localPosition = Vector3.up * ChipThickness * ChipIndices.Count;
 						newChip.transform.localEulerAngles = new Vector3(-90, 0, chipRotation);
@@ -251,9 +250,8 @@ namespace KtaneBaccarat
 				float chipRotation = UnityEngine.Random.Range(0f, 360f);
 
 				// The new chip will keep the textures of the active chip, so rewrite them
-				var newChip = BaccaratScript.Instantiate(Owner.CurrentChip.gameObject);
+				var newChip = BaccaratScript.Instantiate(Owner.CurrentChip.gameObject, ChipStack.transform);
 				newChip.GetComponent<Renderer>().material = Owner.ChipMaterials[chipIndices[i]];
-				newChip.transform.parent = ChipStack.transform;
 				newChip.transform.localScale *= 0.5f;
 				newChip.transform.localPosition = Vector3.up * ChipThickness * i + Vector3.left * ChipSidestepDistance;
 				newChip.transform.localEulerAngles = new Vector3(-90, 0, chipRotation);
@@ -279,9 +277,8 @@ namespace KtaneBaccarat
 			var coinOffset = Vector2.zero;
 
 			while (centsOnly >= 25) {
-				var quarter = BaccaratScript.Instantiate(Owner.Quarter);
+				var quarter = BaccaratScript.Instantiate(Owner.Quarter, ChipStack.transform);
 				quarter.SetActive(true);
-				quarter.transform.parent = ChipStack.transform;
 				quarter.transform.localScale *= 0.375f;
 				quarter.transform.localPosition = position + new Vector3(coinOffset.x, 0, coinOffset.y);
 				quarter.transform.localEulerAngles = new Vector3(0, UnityEngine.Random.Range(0f, 360f), 0);
@@ -290,20 +287,19 @@ namespace KtaneBaccarat
 				if (UnityEngine.Random.Range(0, 2) == 0)
 				{
 					quarter.transform.Rotate(Vector3.forward, 180);
-					quarter.transform.localPosition += Vector3.up * 0.00175f / 2;
+					quarter.transform.localPosition += Vector3.up * 0.00175f * 0.375f;
 				}
 
 				centsOnly -= 25;
 				coinOffset = 0.0001f * UnityEngine.Random.insideUnitCircle;
-				position += Vector3.up * 0.00175f / 2;
+				position += Vector3.up * 0.00175f * 0.375f;
 
 				itemsPlaced++;
 			}
 
 			while (centsOnly >= 5) {
-				var nickel = BaccaratScript.Instantiate(Owner.Nickel);
+				var nickel = BaccaratScript.Instantiate(Owner.Nickel, ChipStack.transform);
 				nickel.SetActive(true);
-				nickel.transform.parent = ChipStack.transform;
 				nickel.transform.localScale *= 0.375f;
 				nickel.transform.localPosition = position + new Vector3(coinOffset.x, 0, coinOffset.y);
 				nickel.transform.localEulerAngles = new Vector3(0, UnityEngine.Random.Range(0f, 360f), 0);
@@ -312,12 +308,12 @@ namespace KtaneBaccarat
 				if (UnityEngine.Random.Range(0, 2) == 0)
 				{
 					nickel.transform.Rotate(Vector3.forward, 180);
-					nickel.transform.localPosition += Vector3.up * 0.00195f / 2;
+					nickel.transform.localPosition += Vector3.up * 0.00195f * 0.375f;
 				}
 
 				centsOnly -= 5;
 				coinOffset = 0.0001f * UnityEngine.Random.insideUnitCircle;
-				position += Vector3.up * 0.00195f / 2;
+				position += Vector3.up * 0.00195f * 0.375f;
 
 				itemsPlaced++;
 			}

@@ -163,6 +163,8 @@ public class BaccaratScript : MonoBehaviour
 	int MinimumBet;
 	int MaximumBet;
 
+	bool ColorblindModeActive;
+
 	public bool AcceptsInput { get; private set; }
 
 	static int ModuleIdCounter = 1;
@@ -338,13 +340,9 @@ public class BaccaratScript : MonoBehaviour
 			}
 		}
 
-		CreateNewDeck();
+		ColorblindModeActive = ColorblindMode.ColorblindModeActive;
 
-		// If Twitch Plays already turned on the colorblind text, this will still keep it on
-		if (ColorblindMode.ColorblindModeActive)
-		{
-			DeckColorLabel.gameObject.SetActive(true);
-		}
+		CreateNewDeck();
 	}
 	
 	void ModuleLog(string format, params object[] args)
@@ -860,7 +858,7 @@ public class BaccaratScript : MonoBehaviour
 	void UpdateColorblindLabel()
 	{
 		// The colorblind label should sit on top of the top card
-		DeckColorLabel.text = CurrentDeck.Color.ToString();
+		DeckColorLabel.text = ColorblindModeActive ? CurrentDeck.Color.ToString() : "";
 		DeckColorLabel.transform.localPosition = CardObjects.Peek().transform.localPosition + Vector3.up * CardEpsilon;
 	}
 
@@ -872,7 +870,7 @@ public class BaccaratScript : MonoBehaviour
 	{
 		if (command.Trim().EqualsIgnoreCase("colorblind") || command.Trim().EqualsIgnoreCase("colourblind"))
 		{
-			DeckColorLabel.gameObject.SetActive(true);
+			ColorblindModeActive = true;
 			yield return null;
 			yield break;
 		}
