@@ -871,6 +871,7 @@ public class BaccaratScript : MonoBehaviour
 		if (command.Trim().EqualsIgnoreCase("colorblind") || command.Trim().EqualsIgnoreCase("colourblind"))
 		{
 			ColorblindModeActive = true;
+			UpdateColorblindLabel();
 			yield return null;
 			yield break;
 		}
