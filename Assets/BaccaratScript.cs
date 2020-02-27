@@ -995,6 +995,9 @@ public class BaccaratScript : MonoBehaviour
 
 		// Deal the cards
 		yield return null;
+		// Whatever the outcome is, credit the resulting solve/strike to the caller
+		yield return "solve";
+		yield return "strike";
 		yield return new[] { DeckSelectable };
 	}
 }
